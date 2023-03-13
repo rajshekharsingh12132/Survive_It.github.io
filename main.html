@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body id="body">
+    <p id="version">Version : 1.1</p>
+    <h1>SURVIVE IT</h1>
+    <h3>Let's See How Long You Can Survive</h3>
+    
+    <fieldset style="background-color: orangered; padding-bottom: 50px;padding-top:0px;border:2px solid white;">
+        <legend style="background-color: orangered;border: 2px solid white;width: 80%;height:50px;font-size: 30px;font-weight:bold; text-align: center;">Rules</legend>
+        <ul >
+            <li>Use keyboard arrow keys or number keys(2,4,6,7)to move user and stay away from white squares.</li>
+            <li>Collect yellow squares to get points.</li>
+            <li>After  every level the white squares speeds up.</li>
+            <li>After every 5 points another white square will follow user until another 3 points are taken.</li>
+            
+        </ul>
+        <div id="startdiv" style="height: 100px;text-align: center;">
+            <button onclick="openWindow()" id="start" style="margin-top: 3%;margin-left: 1%;margin-bottom: 200px;">START</button>
+        </div>
+        
+    </fieldset>
+    <div style="height:155px; width:100%;background-color:black;margin-top: 50px;color: white;">
+        <h3 style="text-align: left;margin-left: 10px;">Developers Details</h3>
+
+        <pre>   Raj Shekhar Singh                                             Pranesh Kanan</pre>
+        <pre>   rajshekhar@gmail.com                                          pranesh@gamil.cm</pre>
+        <pre>   1029384756                                                    6574839201</pre>
+    </div>
+    
+</body>
+<script>
+    function openWindow()
+    {
+        var myWindow=window.open("index_game.html","PLAY GAME","toolbar=no,scrollbars=no,top=500,left=200,width=1003,height=700");
+        
+    }
+</script>
+</html>
