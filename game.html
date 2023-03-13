@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas{
+            
+            border:2px solid black;
+            background-color: darkgreen;
+        }
+        body{
+            width:1003px;
+            height:700px;
+            margin:0px;
+            background-color: lightgray;
+            border:2px solid black;
+            backdrop-filter:blur(5px);
+        }
+        #scoreMeter{
+            height: 30px;
+            width: 100px;
+            border:2px solid black;
+        }
+        #t1,#scr,#level{
+           padding-left: 30px;
+        }
+        .restart{
+            text-decoration: none;
+        }
+
+        #res{
+            padding-left: 150px;
+            padding-right:50px;
+        }
+        
+        
+    </style>
+    
+</head>
+
+<body onload="startGame()" >
+    
+    <table id="table">
+    <tr>
+        <td>VERSION:1.1.5</td>
+        <td id="t1">HIGHEST:</td>
+        <td><p id="highest"></p></td>
+        <td><button id="reset" onclick="reset()">RESET</button></td>
+        <td id="scr">SCORE : </td>
+        <td id="finalScore">SCORE:</meter></td>
+        <td id="level"><p id="status"></p></td>
+        <td><meter min="0" max="10" value=""  id="scoreMeter"></meter></td>
+        <td><p id="life">LIFE:</p></td>
+        <td><a href="game.html" id="res" class="restart">RESTART</a></td>
+        <td><a href="index.html" id="exit" class="restart" onclick="openWindow()">EXIT</a></td>
+    </tr>
+    
+    </table>
+
+<script>
+    var user;
+    var arrow1,arrow2,arrow3,arrow4;
+    var dx=+1;
+    var b2=+1;
+    var b3=-1;
+    var b4=-1;
+    var atky=(Math.random()*550)+50;
+    var atkx=0;
+    var satky=(Math.random()*550)+50;
+    var satkx=0;
+    var ax;
+    var ay;
+    var score=0;
+    var lvl=0
+    var levelCounter=0;
+    var speed=0.5;
+    var life=3;
+    var status=document.getElementById("status");
+    var status=document.getElementById("scoreMeter");
+    var finslScore=document.getElementById("finalScore");
+    var restart=document.getElementById("restart");
+
+    var lifeTab=document.querySelector('#life').innerHTML="LIFE : "+life;
+    
+    function startGame()
+    {
+        gameArea.start();
+        user = new component(20,20,"black",500,300);
+        
+        
+        userArea = new component(900,500,"green",50,50);
+        arrow1 = new component(10,10,"red",500,0);
+        arrow2 = new component(10,10,"red",0,300);
+        arrow3 = new component(10,10,"blue",1000,300);
+        arrow4 = new component(10,10,"red",500,600);
+        food = new component(10,10,"gold",100,200);
+        boww=5;
+        bowh=50;
+        bow1 = new component(boww,bowh,"black",2,0);
+        sa=new component(10,10,"white",satkx,satky);
+        bow4 = new component(boww,bowh,"black",993,550);
+        atk= new component(10,10,"white",atkx,atky);
+        
+        
+    }
+
+    function reset()
+    {
+        let resetValue=document.querySelector('#highest').innerHTML='0';
+        localStorage.setItem("high","0");
+        console.log(resetValue);
+    }
+   
+    
+    function component(width,height,color,x,y,type)
+{
+    this.type=type;
+    this.width=width;
+    this.height=height;
+    this.speedX=0;
+    this.speedY=0;
+
+    this.x=x;
+    this.y=y;
+    this.update=function()
+    {
+        ctx=gameArea.context;
+        if(this.type=="text")
+        {
+            ctx.font=this.width+""+this.height;
+            ctx.fillStyle=color;
+            ctx.fillText(this.text,this.x,this.y);
+        }else{
+        ctx.fillStyle=color;
+        ctx.fillRect(this.x,this.y,this.width,this.height);
+        }
+    }
+    
+}
+    var gameArea=
+    {
+        canvas:document.createElement("canvas"),
+        start : function()
+        {
+            this.canvas.width= 1000;
+            this.canvas.height= 600;
+            this.context=this.canvas.getContext("2d");
+
+            document.body.insertBefore(this.canvas,document.body.childNodes[0]);
+            this.interval=setInterval(updateGameArea,1);
+            window.addEventListener('keydown',function(e){
+                gameArea.key=e.keyCode;
+            })
+            window.addEventListener('keyup',function(e){
+                gameArea.key=false;
+            })
+        },
+        clear : function()
+        {
+            this.context.clearRect(0,0,this.canvas.width,this.canvas.height);
+        }
+        
+    }
+    function openWindow()
+    {
+        var myWindow=window.open("index.html");
+        
+    }
+    
+    
+    function updateGameArea()
+        {
+            
+            var lifeTab=document.querySelector('#life').innerHTML="LIFE : "+life;
+            gameArea.clear();
+            
+            if(user.x>50)
+            if(gameArea.key&&gameArea.key==100){user.x-=2;}
+            if(user.x<930)
+            if(gameArea.key&&gameArea.key==102){user.x+=2;}
+            if(user.y>50)
+            if(gameArea.key&&gameArea.key==104){user.y-=2;}
+            if(user.y<530)
+            if(gameArea.key&&gameArea.key==98){user.y+=2;}
+
+            if(user.x>50)
+            if(gameArea.key&&gameArea.key==37){user.x-=2;}
+            if(user.x<930)
+            if(gameArea.key&&gameArea.key==39){user.x+=2;}
+            if(user.y>50)
+            if(gameArea.key&&gameArea.key==38){user.y-=2;}
+            if(user.y<530)
+            if(gameArea.key&&gameArea.key==40){user.y+=2;}
+
+            if(user.x>50&&user.y<530)
+            if(gameArea.key&&gameArea.key==97){user.x-=2;user.y+=2}
+            if(user.x<930&&user.y<530)
+            if(gameArea.key&&gameArea.key==99){user.x+=2;user.y+=2}
+            if(user.x>50&&user.y>50)
+            if(gameArea.key&&gameArea.key==103){user.x-=2;user.y-=2}
+            if(user.x<930&&user.y>50)
+            if(gameArea.key&&gameArea.key==105){user.x+=2;user.y-=2}
+            if(arrow1.y>=590){
+                arrow1.x=user.x;
+                arrow1.y=0;
+            }
+            arrow1.y +=1;
+            if(arrow2.x>=990){
+                arrow2.x=0;
+                arrow2.y=user.y;
+            }
+            arrow2.x +=2;
+            if(arrow3.x<=0){
+                arrow3.x=1000;
+                arrow3.y=user.y;
+            }
+            arrow3.x -=2;
+            if(arrow4.y<=0){
+                arrow4.x=user.x;
+                arrow4.y=590;
+            }
+            arrow4.y -=1;
+            
+            if(bow1.y==550){dx=-1};
+            if(bow1.y==2){dx=+1};
+            bow1.y+=dx;
+            atkx=bow1.x;
+            atky=bow1.y;
+        
+            if(bow4.y==550){b4=-1};
+            if(bow4.y==0){b4=+1};
+            bow4.y+=b4;
+
+            
+
+            
+            if(atk.x<=0)
+            {
+                tx= user.x-atk.x;
+                ty= user.y-atk.y;
+                dist = Math.sqrt(tx*tx+ty*ty);
+                ax=(tx/dist)*speed;
+                ay=(ty/dist)*speed;
+            }atk.x+= ax;atk.y+= ay;
+            if(atk.y>=600)
+            {
+                tx= user.x-atk.x;
+                ty= user.y-atk.y;
+                dist = Math.sqrt(tx*tx+ty*ty);
+                ax=(tx/dist)*speed;
+                ay=(ty/dist)*speed;
+            }atk.x+= ax;atk.y+= ay;
+            if(atk.y<=0)
+            {
+                tx= user.x-atk.x;
+                ty= user.y-atk.y;
+                dist = Math.sqrt(tx*tx+ty*ty);
+                ax=(tx/dist)*speed;
+                ay=(ty/dist)*speed;
+            }atk.x+= ax;atk.y+= ay;
+            if(atk.x>=1000)
+            {
+                tx= user.x-atk.x;
+                ty= user.y-atk.y;
+                dist = Math.sqrt(tx*tx+ty*ty);
+                ax=(tx/dist)*speed;
+                ay=(ty/dist)*speed;
+            }atk.x+= ax;atk.y+= ay;
+            if(atk.x+5>=(user.x-5)&&(atk.y+5)>=(user.y-5)&&(atk.x+10)<=(user.x+30)&&(atk.y+10)<=(user.y+30))
+            {
+                if(life==0)
+                {
+                    atk.x=user.x;
+                    atk.y=user.y;
+                    document.getElementById("finalScore").innerHTML=""+score;
+                    clearInterval(interval);
+                
+
+                }
+                else{
+                    life--;
+                    atk.x=0;
+                    atk.y=(Math.random()*550)+50;
+                    console.log(life);
+                }
+                
+            
+                
+                
+            }
+            
+            let highestScore=document.querySelector('#highest').innerHTML=localStorage.getItem("high");
+            
+            userArea.update();
+            atk.update();
+            // bow1.update();
+            
+            // bow4.update();
+            food.update();
+            user.update();
+            if(food.x+5>=(user.x-5)&&(food.y+5)>=(user.y-5)&&(food.x+10)<=(user.x+30)&&(food.y+10)<=(user.y+30))
+            {
+                food.x=(Math.random()*860)+60;
+                food.y=(Math.random()*480)+60;
+                score+=1;
+                
+                let prev=parseInt(localStorage.getItem("high"));
+ 
+                if(score>prev)
+                {
+                    
+                    localStorage.setItem("high",""+score);
+                }
+                
+
+                let highestScore=document.querySelector('#highest').innerHTML=localStorage.getItem("high");
+                
+                
+                levelCounter+=1;
+                
+                
+                
+                document.getElementById("scoreMeter").value=levelCounter;
+                if(levelCounter==10){
+                    lvl+=1;
+                    levelCounter=0;
+                    
+                    speed+=0.25;
+                }
+            }
+            document.getElementById("finalScore").innerHTML=""+score;
+            document.getElementById("status").innerHTML=" LEVEL : "+lvl;
+                
+                if(levelCounter>5&&levelCounter<=10){ 
+                tx= user.x-sa.x;
+                ty= user.y-sa.y;
+                dist = Math.sqrt(tx*tx+ty*ty);
+                sa.x+=(tx/dist)*1;
+                sa.y+=(ty/dist)*1;
+                }
+                else{
+                    sa.x=0;
+                    sa.y=0;
+                }
+            
+                if(sa.x+5>=(user.x-5)&&(sa.y+5)>=(user.y-5)&&(sa.x+10)<=(user.x+30)&&(sa.y+10)<=(user.y+30))
+            {
+                if(life==0){
+                    atk.x=user.x;
+                    atk.y=user.y;
+                    document.getElementById("finalScore").innerHTML=""+score;
+                    clearInterval=interval;
+                    openWindow();
+                }
+                
+                
+                
+
+                else{
+                    life--;
+                    sa.x=0;
+                    sa.y=(Math.random()*550)+50;
+                    console.log(life);
+                }
+                
+            }                
+                sa.update();
+            
+        }
+    
+        
+</script>
+
+</body>
+</html>

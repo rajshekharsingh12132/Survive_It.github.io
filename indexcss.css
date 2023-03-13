@@ -1,0 +1,26 @@
+body{
+    background-color:red ;
+    border:2px solid black;
+}
+h1,h3{
+    text-align: center;
+}
+#version{
+    text-align: right;
+    margin-top: 10px;;
+    padding-top: 0px;
+    padding-right: 10px;
+}
+#start{
+    font-size: larger;
+    font-weight: 600;
+    text-align: center;
+    border: 2px solid black;
+    height:50px;
+    width: 100px;
+    border-radius: 5px;
+}
+#start:hover{
+    background-color: green;
+    
+}
